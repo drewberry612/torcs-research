@@ -2,7 +2,13 @@ import math
 import tkinter as tk
 
 class StatsWindow():
+    """
+    Handles the operation of the statistics window,
+    which shows certain metrics while an agent drives
+    """
+
     def __init__(self, s, r):
+        # Define the window
         self.window = tk.Tk()
         self.window.geometry("1400x800")
         self.window.title("Car Statistics")
@@ -14,10 +20,17 @@ class StatsWindow():
         self.create_grid()
 
     def update_data(self, s, r):
+        """
+        Called at every window update to gain the current data
+        """
         self.S = s
         self.R = r
 
     def create_grid(self):
+        """
+        Defines the 3x2 grid used in the window
+        """
+
         frame = tk.Frame(self.window)
         frame.pack(expand=True, fill='both')
 
@@ -27,6 +40,7 @@ class StatsWindow():
         for j in range(3):  # Three columns
             frame.grid_columnconfigure(j, weight=1, uniform="equal_width")
 
+        # Initialise all cells
         angle = tk.Frame(frame, borderwidth=1, relief="solid")
         angle.grid(row=0, column=0, sticky="nsew")
         self.angle_cell(angle)
@@ -52,6 +66,11 @@ class StatsWindow():
         self.actuator_cell(actuators)
 
     def angle_cell(self, angle):
+        """
+        Creates all elements included in the angle cell
+        """
+
+        # configure the grid
         angle.grid_rowconfigure(0, weight=1)
         angle.grid_rowconfigure(1, weight=2)
         angle.grid_rowconfigure(2, weight=1)
@@ -61,15 +80,18 @@ class StatsWindow():
         frame1.grid(row=0, column=0, sticky="ew")
         tk.Label(frame1, text="Angle from Track Axis").pack(expand=True, pady=10, anchor="center")
 
+        # create the dial frame
         frame2 = tk.Frame(angle)
         frame2.grid(row=1, column=0, sticky="ew")
 
+        # create the track angle dial and needle
         self.angle_dial = tk.Canvas(frame2, width=340, height=340)
         self.angle_dial.pack()
 
         self.angle_dial.create_line(10, 300, 330, 300, width=2)
         self.needle1 = self.angle_dial.create_line(170, 300, 170, 140, width=2, fill='red')
 
+        # create the text frame
         frame3 = tk.Frame(angle)
         frame3.grid(row=2, column=0, sticky="ew")
 
@@ -77,11 +99,16 @@ class StatsWindow():
         self.trackPos.pack(side="top", padx=10, fill="x")
 
     def stats_cell(self, stats):
+        """
+        Creates all elements included in the stats cell
+        """
+
+        # configure the grid
         stats.grid_rowconfigure(0, weight=2)
         stats.grid_rowconfigure(1, weight=1)
         stats.grid_columnconfigure(0, weight=1)
 
-        # make this whole cell into 2 boxes stacked on top of eachother
+        # make this whole cell into two frames stacked on top of eachother
         frame1 = tk.Frame(stats)
         frame1.grid(row=0, column=0, sticky="ew")
         tk.Label(frame1, text="Race Stats").pack(expand=True, pady=10, anchor="center")
@@ -104,6 +131,8 @@ class StatsWindow():
         self.damage = tk.Label(frame1, text="Damage Percentage: ", anchor="w")
         self.damage.pack(side="top", padx=10, fill="x")
 
+
+        # create the wheel spin vel section
         tk.Label(frame1, text="Wheel Spin Velocity").pack(expand=True, pady=10, anchor="center")
 
         frame2 = tk.Frame(stats)
@@ -124,6 +153,11 @@ class StatsWindow():
         self.brwheel.grid(row=1, column=1, sticky="nsew", padx=10)
 
     def steer_cell(self, steer):
+        """
+        Creates all elements included in the steer cell
+        """
+        
+        # configure the grid
         steer.grid_rowconfigure(0, weight=1)
         steer.grid_rowconfigure(1, weight=2)
         steer.grid_columnconfigure(0, weight=1)
@@ -135,6 +169,7 @@ class StatsWindow():
         frame2 = tk.Frame(steer)
         frame2.grid(row=1, column=0, sticky="ew")
 
+        # create the steering angle dial and needle
         self.steer_dial = tk.Canvas(frame2, width=340, height=340)
         self.steer_dial.pack()
 
@@ -142,6 +177,11 @@ class StatsWindow():
         self.needle2 = self.steer_dial.create_line(170, 300, 170, 140, width=2, fill='red')
 
     def speed_cell(self, speeds):
+        """
+        Creates all elements included in the speed cell
+        """
+
+        # configure the grid
         speeds.grid_rowconfigure(0, weight=1)
         speeds.grid_rowconfigure(1, weight=2)
         speeds.grid_columnconfigure(0, weight=1)
@@ -153,12 +193,13 @@ class StatsWindow():
         frame2 = tk.Frame(speeds)
         frame2.grid(row=1, sticky="ew")
 
+        # configure the subsequent grid for bar charts
         frame2.grid_rowconfigure(0, weight=1)
         frame2.grid_columnconfigure(0, weight=1)
         frame2.grid_columnconfigure(1, weight=1)
         frame2.grid_columnconfigure(2, weight=1)
 
-        # x
+        # x speed
         subframe1 = tk.Frame(frame2)
         subframe1.grid(row=0, column=0)
 
@@ -168,7 +209,7 @@ class StatsWindow():
 
         tk.Label(subframe1, text="x").pack(expand=True, pady=10, anchor="center")
 
-        # y
+        # y speed
         subframe2 = tk.Frame(frame2)
         subframe2.grid(row=0, column=1)
 
@@ -178,7 +219,7 @@ class StatsWindow():
 
         tk.Label(subframe2, text="y").pack(expand=True, pady=10, anchor="center")
 
-        # z
+        # z speed
         subframe3 = tk.Frame(frame2)
         subframe3.grid(row=0, column=2)
 
@@ -194,10 +235,16 @@ class StatsWindow():
         canvas.create_rectangle(20, 200 - bar_height, 130, 200, fill="blue", tags="bar")
 
     def rpm_cell(self, rpm):
+        """
+        Creates all elements included in the rpm cell
+        """
+
+        # configure the grid
         rpm.grid_rowconfigure(0, weight=1)
         rpm.grid_rowconfigure(1, weight=2)
         rpm.grid_columnconfigure(0, weight=1)
 
+        # create text
         frame1 = tk.Frame(rpm)
         frame1.grid(row=0, column=0, sticky="ew")
         frame1.grid_columnconfigure(0, weight=1)
@@ -208,7 +255,6 @@ class StatsWindow():
 
         frame2 = tk.Frame(rpm)
         frame2.grid(row=1, column=0, sticky="ew")
-
         self.rpm_dial = tk.Canvas(frame2, width=360, height=360)
         self.rpm_dial.pack()
 
@@ -235,6 +281,11 @@ class StatsWindow():
         self.rpm_num = self.rpm_dial.create_text(200, 250, text="", anchor="center")
 
     def actuator_cell(self, actuators):
+        """
+        Creates all elements included in the steer cell
+        """
+
+        # configure the grid
         actuators.grid_rowconfigure(0, weight=1)
         actuators.grid_rowconfigure(1, weight=2)
         actuators.grid_columnconfigure(0, weight=1)
@@ -282,6 +333,10 @@ class StatsWindow():
         tk.Label(subframe3, text="Clutch").pack(expand=True, pady=10, anchor="center")
 
     def update_window(self):
+        """
+        Updates all elements, including the moving parts like dials and bars
+        """
+
         # Calculate needle end point
         x = 170 + 160 * math.sin(self.S.d['angle']/2)
         y = 300 - 160 * math.cos(self.S.d['angle']/2)
@@ -335,10 +390,10 @@ class StatsWindow():
         self.create_bar(self.actuator_bar3, self.R.d['clutch'])
 
         self.window.update()
-        self.window.after(50, self.update_window)
+        self.window.after(50, self.update_window) # trigger recursion
 
-    def draw_needle(self, revs):
-        angle = 240 * (revs / 10000) - 30
+    def draw_needle(self, rpm):
+        angle = 240 * (rpm / 10000) - 30
 
         angle_rad = math.radians(180 - angle)
 

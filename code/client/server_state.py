@@ -1,11 +1,15 @@
 class ServerState(object):
-    '''What the server is reporting right now.'''
+    '''
+    What the server is reporting currently
+    '''
     def __init__(self):
         self.servstr = str()
         self.d = dict()
 
     def parse_server_str(self, server_string):
-        '''Parse the server string.'''
+        '''
+        Parse the server string
+        '''
         self.servstr = server_string.strip()[:-1]
         sslisted = self.servstr.strip().lstrip('(').rstrip(')').split(')(')
         for i in sslisted:
@@ -23,8 +27,9 @@ class ServerState(object):
         return out
     
     def destringify(self, s):
-        '''makes a string into a value or a list of strings into a list of
-        values (if possible)'''
+        '''
+        Converts a string into a value or a list of strings into a list of values (if possible)
+        '''
         if not s: return s # if string is empty
 
         if type(s) is str:

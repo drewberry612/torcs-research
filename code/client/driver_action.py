@@ -1,9 +1,11 @@
 class DriverAction(object):
-    '''What the driver is intending to do
+    '''
+    What the driver is intending to do
 
     Composes something like this for the server:
     (accel 1)(brake 0)(gear 1)(steer 0)(clutch 0)(focus 0)(meta 0) or
-    (accel 1)(brake 0)(gear 1)(steer 0)(clutch 0)(focus -90 -45 0 45 90)(meta 0)'''
+    (accel 1)(brake 0)(gear 1)(steer 0)(clutch 0)(focus -90 -45 0 45 90)(meta 0)
+    '''
 
     def __init__(self):
        self.actionstr = str()
@@ -18,13 +20,9 @@ class DriverAction(object):
 
 
     def clip_to_limits(self):
-        """There pretty much is never a reason to send the server
-        something like (steer 9483.323). This comes up all the time
-        and it's probably just more sensible to always clip it than to
-        worry about when to. The "clip" command is still a snakeoil
-        utility function, but it should be used only for non standard
-        things or non obvious limits (limit the steering to the left,
-        for example). For normal limits, simply don't worry about it."""
+        """
+        Clips every actuator so that it is within the correct bounds
+        """
 
         self.d['steer'] = self.clip(self.d['steer'], -1, 1)
         self.d['brake'] = self.clip(self.d['brake'], 0, 1)

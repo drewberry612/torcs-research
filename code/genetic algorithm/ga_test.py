@@ -3,20 +3,29 @@ from client_w_gui import Client_w_GUI
 import numpy as np
 import math
 
+"""
+Allows an agent trained using the genetic algorithm to be tested with graphics
+"""
+
 def test_best_bot():
-    chromosomes = np.loadtxt("GA/Fitness/chromosomes1.txt")
-    agent = NeuralNet(chromosomes[0])
+    chromosomes = np.loadtxt("GA/Fitness/chromosomes1.txt") # load the chromosome
+    agent = NeuralNet(chromosomes[0]) # generate a neural network from it
     for step in range(C.maxSteps, 0, -1):
         C.get_servers_input()
-        r = agent.drive(C.S, C.R)
+        r = agent.drive(C.S, C.R) # decides the action based on the sensor data
         C.update(r)
-        if C.S.d['trackPos'] > 1:
-            C.R.d['meta'] = True
+        if C.S.d['trackPos'] > 1: # early stopping criteria, stops when outside track boundaries
+            C.R.d['meta'] = True # restart the race
             C.respond_to_server()
             break
         C.respond_to_server()
 
 def follow_axis():
+    """
+    Simple agent to follow the track axis and keep a constant speed
+    Shows the simplest an agent can drive to stay within the track boundaries
+    """
+
     for step in range(C.maxSteps, 0, -1):
         C.get_servers_input()
         

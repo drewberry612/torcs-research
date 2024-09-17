@@ -2,11 +2,17 @@ import tkinter as tk
 import math
 
 class TrackWindow():
+    """
+    Controls the operation of drawing the track as an agent drives
+    """
+
     def __init__(self, s, r):
+        # Initialise the window
         self.window = tk.Tk()
         self.window.geometry("600x600")
         self.window.title("Track Map")
 
+        # Create the canvas which will house the drawing
         self.canvas = tk.Canvas(self.window, width=600, height=600)
         self.canvas.pack()
 
@@ -19,10 +25,16 @@ class TrackWindow():
         self.R = r
 
     def update_data(self, s, r):
+        """
+        Called at every update to gain the curret data
+        """
         self.S = s
         self.R = r
     
     def update_coords(self, vel, new_angle):
+        """
+        Basic kinematics to move the position
+        """
         angle = self.old_angle - new_angle
 
         new_x = self.x + vel * math.sin(angle)
@@ -33,8 +45,12 @@ class TrackWindow():
         self.old_angle = angle
     
     def find_track_edge(self, track):
+        """
+        Uses the track sensor to determine the track edge for drawing
+        """
+
         self.track_edge_coords = []
-        a= [-90, -75, -60, -45, -30, -20, -15, -10, -5, 0, 5, 10, 15, 20, 30, 45, 60, 75, 90]
+        a = [-90, -75, -60, -45, -30, -20, -15, -10, -5, 0, 5, 10, 15, 20, 30, 45, 60, 75, 90]
 
         count = 0
         for i in a:
@@ -46,6 +62,11 @@ class TrackWindow():
             count+=1
 
     def update_window(self):
+        """
+        Determines the velocity vector and the angle to update the position
+        Draws each track edge coordinate
+        """
+
         vel = math.sqrt(self.S.d['speedX']**2 + self.S.d['speedY']**2) / 400
         angle = self.R.d['steer'] * 2 * math.pi / 28
 
@@ -57,4 +78,4 @@ class TrackWindow():
             self.canvas.create_oval(i[0] - radius, i[1] - radius, i[0] + radius, i[1] + radius, fill="black")
 
         self.window.update()
-        self.window.after(50, self.update_window)
+        self.window.after(50, self.update_window) # Enables recursion

@@ -9,17 +9,21 @@ import collections as col
 import math
 
 class TorcsEnv(gym.Env):
+    """
+    Custom reinforcement learning environment for use with PPO
+    """
+
     def __init__(self, gui=False, infinite=False):
         self.initial = True
         self.gui = gui
 
-        self.terminal_judge_start = 100  # If after 1000 timestep still no progress, terminated
+        self.terminal_judge_start = 100  # If after 100 timestep still no progress, terminated
         self.termination_limit_progress = 5  # [km/h], episode terminates if car is running slower than this limit
 
         if infinite:
             self.terminal_judge_start = 1000000000
 
-        # if gears are enabled how does one include a discrete action in a continuous action space
+        # action space for the model
         self.action_space = gym.spaces.Box(
             low=np.array([-1.0, 0.0, 0.0]),
             high=np.array([1.0, 1.0, 1.0]),
@@ -31,10 +35,17 @@ class TorcsEnv(gym.Env):
         self.observation_space = spaces.Box(low=low, high=high)
 
     def step(self, action):
-        self.client.R.d['steer'] = action[0]  # in [-1, 1]
+        """
+        At each timestep, enact the action and return a reward to the algorithm based on the state of the game
+        Also includes early stopping criteria
+        """
+
+        # Action mapping
+        self.client.R.d['steer'] = action[0]  # [-1, 1]
         self.client.R.d['accel'] = action[1]
         self.client.R.d['brake'] = action[2]
 
+        # Auto transmission
         self.client.R.d['gear'] = 1
         if self.client.S.d['speedX'] > 50:
             self.client.R.d['gear'] = 2
@@ -84,23 +95,30 @@ class TorcsEnv(gym.Env):
             reward = -1
             self.client.R.d['meta'] = True
 
-        if self.terminal_judge_start < self.time_step:
+        # if the reward is lower than the limit, terminate
+        if self.terminal_judge_start < self.timestep:
             if progress < self.termination_limit_progress:
                 self.client.R.d['meta'] = True
         
-        if self.time_step > self.client.maxSteps:
+        # enforce a time limit
+        if self.timestep > self.client.maxSteps:
             self.client.R.d['meta'] = True
 
         if self.client.R.d['meta'] is True: # Send a reset signal
             self.client.respond_to_server()
 
-        self.time_step += 1
+        self.timestep += 1
         ob = self.observation
         state = np.hstack((ob.angle, ob.track, ob.trackPos, ob.speedX, ob.speedY))
 
         return state, reward, self.client.R.d['meta'], self.client.R.d['meta'], {}
 
     def reset(self, seed=None):
+        """
+        Called after epsiode termination to reset the game and environment
+        """
+
+        # Creates the client when first reset
         if self.initial:
             if self.gui:
                 self.client = Client_w_GUI()
@@ -111,10 +129,8 @@ class TorcsEnv(gym.Env):
             self.client.R.d['meta'] = True
             self.client.respond_to_server()
 
-        self.time_step = 0
-
+        self.timestep = 0
         self.client.get_servers_input()  # Get the initial input from torcs
-
         self.observation = self.make_observaton(self.client.S.d)
 
         ob = self.observation
@@ -126,6 +142,11 @@ class TorcsEnv(gym.Env):
         self.client.shutdown()
 
     def make_observaton(self, raw_obs):
+        """
+        Creates an observation dictionary from the sensor data
+        Normalises the data
+        """
+
         names = ['focus',
                     'speedX', 'speedY', 'speedZ', 'angle', 'damage',
                     'opponents',

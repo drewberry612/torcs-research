@@ -2,10 +2,17 @@ import math
 import numpy as np
 
 class NeuralNet():
+    """
+    Acts as an agent
+    Instantiated from a chromosome of weights and biases
+    """
+
+    # Neural network structure
     ninputs = 23
     nhids = 36
     nouts = 3
 
+    # chromosome properties
     weights_and_bias_shapes = [[ninputs, nhids], [nhids], [nhids, nouts], [nouts]]
     chromosome_length = ninputs*nhids + nhids + nhids*nouts + nouts
 
@@ -17,7 +24,6 @@ class NeuralNet():
     def calculate_decision(self, input):
         # run a standard neural network with just one hidden layer, and tanh activation functions everywhere.
         hidden = np.tanh(np.matmul(input, self.W1) + self.b1)
-
         output = np.tanh(np.matmul(hidden, self.W2) + self.b2)
         
         # outputs
@@ -25,7 +31,6 @@ class NeuralNet():
         accel_output = output[1] / 2 + 0.5 # rescale it from [-1,1] to [0,1]
         brake_output = output[2] / 2 + 0.5 # rescale it from [-1,1] to [0,1]
         return steer_output, accel_output, brake_output
-
 
     @staticmethod    
     def convert_vector_to_weights_and_biases(vec):
@@ -51,12 +56,12 @@ class NeuralNet():
         return weights_and_biases
     
     def drive(self, S, R):
-        '''Drives the bot'''
-        s, r = S.d, R.d        
+        '''
+        Drives the agent 
+        '''
+        s, r = S.d, R.d # sensor and actuator data      
         
-        # angle is easy as it is between -pi and pi
-        # trackPos if on track is between 1 and -1, going to hard code here change later for robustness and off track
-        # focus is between 0 and 200
+        # normalisation
         angle = s['angle'] / math.pi
 
         track = []
@@ -73,7 +78,6 @@ class NeuralNet():
         r['steer'], r['accel'], r['brake'] = self.calculate_decision(input)
 
         # Automatic Transmission
-        # Tweak this if needed, or leave it up to the neural net
         r['gear'] = 1
         if s['speedX'] > 50:
             r['gear'] = 2
