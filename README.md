@@ -7,9 +7,11 @@ Abstract
  learning algorithms have been explored in this racing game context. Each parameter and condition of
  these algorithms were experimented upon diligently, to create AI agents that could complete laps of a
  race efficiently and rival human players.
- Aracing simulation environment offers a unique set of challenges that are comparable to those faced
+ 
+ A racing simulation environment offers a unique set of challenges that are comparable to those faced
  by real-world autonomous vehicles, such as high-speed decision-making and spatial awareness. The
  exploration of this idea could uncover insights into the use of machine learning in such contexts.
+ 
  This thesis illustrates all experiments and findings, demonstrating the competency of trained agents,
  while also explaining the technical aspects of how research was conducted. Both algorithms have
  created simple and complex racing behaviours, such as following the track axis and/or racing line.
