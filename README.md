@@ -1,3 +1,6 @@
+
+
+
 Abstract
 
  The Open Racing Car Simulator (TORCS) is a car racing simulation game, which allows a player to
@@ -16,6 +19,9 @@ Abstract
  while also explaining the technical aspects of how research was conducted. Both algorithms have
  created simple and complex racing behaviours, such as following the track axis and/or racing line.
  However, a final model trained using the genetic algorithm demonstrated the best performance.
+
+
+The following videos demonstrate the performance of each final model, named in relation to the model names in the thesis.
 
 GA 1:  https://www.youtube.com/watch?v=83Cg7GbVDVY
 
