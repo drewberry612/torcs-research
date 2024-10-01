@@ -1,5 +1,12 @@
+This is my MSc thesis titled "Using Machine Learning Techniques to Create Neural Network Driving Agents, with a Focus on Reinforcement Learning". I trained AI driving agents using a genetic algorithm and the PPO reinforcement learning algorithm, where the TORCS racing simulation was used as the environment for training. 
 
+The following GIF shows an example of one of the advanced driving agents created:
 
+![Demo](https://github.com/drewberry612/torcs-research/blob/main/torcsA.gif)
+
+For better videos, see the end of this README
+
+----------------------------------------------------------------------------------------------
 
 Abstract
 
@@ -20,13 +27,14 @@ Abstract
  created simple and complex racing behaviours, such as following the track axis and/or racing line.
  However, a final model trained using the genetic algorithm demonstrated the best performance.
 
+-------------------------------------------------------------------------------------------------------------------------
 
 The following videos demonstrate the performance of each final model, named in relation to the model names in the thesis.
 
-GA 1:  https://www.youtube.com/watch?v=83Cg7GbVDVY
+- GA 1:  https://www.youtube.com/watch?v=83Cg7GbVDVY
 
-GA 2:  https://www.youtube.com/watch?v=jIdxrvjkvSk
+- GA 2:  https://www.youtube.com/watch?v=jIdxrvjkvSk
 
-PPO 1:  https://www.youtube.com/watch?v=q4tM7_CCrZA
+- PPO 1:  https://www.youtube.com/watch?v=q4tM7_CCrZA
 
-PPO 2:  https://www.youtube.com/watch?v=_cP2MIGxyMg
+- PPO 2:  https://www.youtube.com/watch?v=_cP2MIGxyMg
