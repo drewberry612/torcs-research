@@ -1,4 +1,5 @@
 Abstract
+
  The Open Racing Car Simulator (TORCS) is a car racing simulation game, which allows a player to
  race against opponents that are simulated by the computer. In this project, several AI opponents for
  this game have been developed, using various forms of machine learning on neural networks, which
