@@ -1,4 +1,6 @@
-This is my MSc thesis titled "Using Machine Learning Techniques to Create Neural Network Driving Agents, with a Focus on Reinforcement Learning". I trained AI driving agents using a genetic algorithm and the PPO reinforcement learning algorithm, where the TORCS racing simulation was used as the environment for training. 
+This is my MSc thesis titled "Using Machine Learning Techniques to Create Neural Network Driving Agents, with a Focus on Reinforcement Learning". 
+
+I trained AI driving agents using a genetic algorithm and the PPO reinforcement learning algorithm, where the TORCS racing simulation was used as the environment for training. 
 
 The following GIF shows an example of one of the advanced driving agents created:
 
