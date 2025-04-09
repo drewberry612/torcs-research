@@ -2,9 +2,7 @@
 
 For my MSc thesis, I trained AI driving agents using a **genetic algorithm** and the **PPO reinforcement learning** algorithm. The **TORCS (The Open Racing Car Simulator)** was used as the environment for training these agents.
 
-<div align="center">
-  ![Demo](https://github.com/drewberry612/torcs-research/blob/main/torcsA.gif)
-</div>
+![Demo](https://github.com/drewberry612/torcs-research/blob/main/torcsA.gif)
 
 ---
 
